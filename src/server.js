@@ -1,8 +1,10 @@
+require('dotenv').config();
+
 const express = require('express');
 const fs = require('fs').promises;
 const cors = require('cors'); // Agregamos la librería 'cors'
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
 app.use(express.json());
 app.use(cors()); // Habilitamos CORS
