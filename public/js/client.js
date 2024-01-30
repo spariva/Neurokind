@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
   
       const taskName = document.getElementById('taskName').value;
   
-      fetch('http://localhost:3000/api/tareas', {
+      fetch('/tasks', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
       .catch(error => console.error('Error al agregar tarea:', error));
     });
   
-    fetch('http://localhost:3000/api/tareas')
+    fetch('/tasks')
       .then(response => response.json())
       .then(data => {
         data.forEach(task => {

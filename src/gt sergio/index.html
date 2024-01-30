@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="contenido">
+
+        <!--<button id="mostrarFormulario"><img id="botonMas" src="img/mas.png"></button>-->
+
+        <div class="formulario">
+            <form action="/anadirTarea" method="POST">
+                Tarea: <input type="text" name="tarea" required>
+                <br>
+                Categoria: <input type="text" name="categoria">
+                <br>
+                Fecha: <input type="date" name="fecha">
+                Color: <select name="color">
+                    <option value="negro" selected>Negro</option>
+                    <option value="morado">Morado</option>
+                    <option value="verde">Verde</option>
+                    <option value="azul">Azul</option>
+                    <option value="naranja">Naranja</option>
+                    <option value="rojo">Rojo</option>
+                </select>
+                <br>
+                <button id="mostrarFormulario" type="submit">Añadir tarea</button>
+            </form>
+        </div>
+
+       <script>
+            window.onload = function () {
+                fetch('/tareas')
+                    .then(response => response.json())
+                    .then(tareas => {
+                        const listaTareas = document.querySelector('.listaTareas');
+                        tareas.forEach(tarea => {
+                            const div = document.createElement('div');
+                            div.className = 'tarea'; // Añade la clase 'tareas' al div
+                            div.classList.add(`tarea-${tarea.color}`); // Añade la clase basada en el color de la tarea
+                            div.innerHTML = `${tarea.nombre}<br> Categoria: ${tarea.categoria}<br> Fecha: ${tarea.fecha}`;
+                            listaTareas.appendChild(div);
+                        });
+                    });
+            };
+        </script>
+        <div class="listaTareas">
+        </div>
+
+
+    </div>
+
+
+</body>
+
+</html>

@@ -25,18 +25,18 @@ app.get('/', function(req, res) {
 });
 
 // 
-app.get('/api/tareas', async (req, res) => {
+app.get('/tasks', async (req, res) => {
   try {
     const data = await fs.readFile(tareasFilePath, 'utf-8');
     const tareas = JSON.parse(data); // Redundante, en todo caso comprueba que sea JSON válido, si no lo es, devuelve un error. Y la cosa es que paso de JSON a objeto y luego de objeto a JSON. Podría devolver directamente el JSON. 
     res.json(tareas);
   } catch (error) {
     console.error('Error al leer el archivo de tareas:', error);
-    res.status(500).json({ mensaje: 'Error interno del servidor' });
+    res.status(500).json({ mensaje: 'Error interno del servidor en el get' });
   }
 });
 
-app.post('/api/tareas', async (req, res) => {
+app.post('/tasks', async (req, res) => {
   try {
     const nuevaTarea = {
       id: Date.now(),

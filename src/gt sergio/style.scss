@@ -1,0 +1,119 @@
+$color-fondo: #884ac7;
+$color-fondo-tarea: #e5e5e5;
+$color-fondo-formulario: #d4d4d4;
+
+$color-texto: #000;
+$color-body: #e3e3e3;
+
+$naranja: #d89d06;
+$morado: #884ac7;
+$verde: #61d88d;
+$azul: #61c0d8;
+$rojo: #d86161;
+$negro: #000000;
+
+//$colores: ("negro", $negro), ("rojo", $rojo), ("verde", $verde), ("azul", $azul), ("naranja", $naranja), ("morado", $morado);
+$colores: "negro"$negro, "rojo"$rojo, "verde"$verde, "azul"$azul, "naranja"$naranja, "morado"$morado;
+
+$borde-formulario: 15px;
+$borde-tarea: 25px;
+
+$ancho-tarea: 300px;
+$ancho-formulario: 400px;
+
+
+$tamano-texto-tarea: 17px;
+$tamano-texto-formulario: 20px;
+
+$altura: 150px;
+
+$fuente-tarea: Arial;
+
+body {
+    background-color: $color-body;
+}
+
+#contenido {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.listaTareas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.formulario{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    margin: 30px;
+    border: 2px solid $negro;
+    border-radius: $borde-formulario;
+    background-color: $color-fondo-formulario;
+    width: $ancho-formulario;
+    font-size: $tamano-texto-formulario;
+
+    button {
+        margin-top: 10px;
+        margin: 10px auto 0;
+    }
+
+    input{
+        margin: 5px;
+    }
+}
+
+@mixin tareas($color-fondo-tarea, $borde-tarea, $ancho-tarea, $tamano-texto-tarea, $fuente) {
+    background-color: $color-fondo-tarea;
+    width: $ancho-tarea;
+    border-radius: $borde-tarea;
+    margin: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: $tamano-texto-tarea;
+    font-family: $fuente;
+    text-align: center;
+    padding: 10px;
+}
+
+.tarea {
+    @include tareas($color-fondo-tarea, $borde-tarea, $ancho-tarea, $tamano-texto-tarea, $fuente-tarea);
+}
+
+
+@mixin tarea-color($color-texto, $borde-tarea) {
+    color: $color-texto;
+    border: 3px solid $color-texto;
+}
+
+@each $color in $colores {
+    // Extraemos el nombre del color (la primera parte de cada elemento en la lista)
+    $nombre: nth($color, 1);
+    // Extraemos el código de color (la segunda parte de cada elemento en la lista)
+    $color-tarea-each: nth($color, 2);
+
+    .tarea-#{$nombre} {
+        @include tarea-color($color-tarea-each, $borde-tarea);
+    }
+}
+
+.hidden {
+    display: none;
+}
+
+#botonMas{
+    width: 60px;
+}
+
+#mostrarFormulario{
+    border-radius: 100%;
+
+}

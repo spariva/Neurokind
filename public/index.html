@@ -14,7 +14,7 @@
     <div class="popup">
         <div class="popup-container">
             <h2> Agregar nueva tarea: </h2>
-            <form action="/api/tareas" method="post" id="addTaskForm">
+            <form action="/tasks" method="post" id="addTaskForm">
                 <input type="text" id="task" name="task">
                 <input type="submit" value="Agregar">
             </form>
@@ -24,7 +24,7 @@
     <main>
         <div class="taskList">
             <div class="task-todo step">
-                <div class="task-step-head" id="first-step-head">
+                <div class="task-step-head" id="first-step-head" id="taskList">
                     <span> Tareas por hacer </span>
                 </div>
                 <div class="task-step-container"> </div>
