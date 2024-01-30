@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestor de tareas </title>
+    <!-- <link rel="stylesheet" type="text/css" href="css/styles.css"> -->
+    <script src="js/client.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1 class="proyect-title"> Gestor de Tareas </h1>
+        <button class="popup-open-button"> + </button>
+    </header>
+    <div class="popup">
+        <div class="popup-container">
+            <h2> Agregar nueva tarea: </h2>
+            <form action="/api/tareas" method="post" id="addTaskForm">
+                <input type="text" id="task" name="task">
+                <input type="submit" value="Agregar">
+            </form>
+            <i id="popup-close-button"></i>
+        </div>
+    </div>
+    <main>
+        <div class="taskList">
+            <div class="task-todo step">
+                <div class="task-step-head" id="first-step-head">
+                    <span> Tareas por hacer </span>
+                </div>
+                <div class="task-step-container"> </div>
+            </div>
+            <div class="task-inprogress step">
+                <div class="task-step-head" id="second-step-head">
+                    <span> Tareas en proceso </span>
+                </div>
+                <div class="task-step-container"> </div>
+            </div>
+            <div class="task-finished step">
+                <div class="task-step-head" id="third-step-head">
+                    <span> Tareas finalizadas </span>
+                </div>
+                <div class="task-step-container"> </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

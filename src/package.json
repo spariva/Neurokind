@@ -7,7 +7,7 @@
     "devStart": "nodemon server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Maki Spariva",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",

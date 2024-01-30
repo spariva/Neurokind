@@ -1,16 +1,18 @@
-require('dotenv').config();
-
+//Paths:
+const path = require('path');
+const basePath = path.resolve(__dirname, '..');
+const publicPath = path.join(basePath, 'public');
+const indexPath = path.join(basePath, 'public/index.html');
+const envPath = path.join(basePath, '.env');
+//Dotenv:
+require('dotenv').config({path: envPath});
+//Express:
 const express = require('express');
 const fs = require('fs').promises;
 const cors = require('cors'); 
 const app = express();
 const PORT = process.env.PORT;
 const tareasFilePath = 'tasks.json';
-//Paths:
-const path = require('path');
-const basePath = path.resolve(__dirname, '..');
-const publicPath = path.join(basePath, 'public');
-const indexPath = path.join(basePath, 'public/index.html');
 
 app.use(express.json());
 app.use(cors()); 
