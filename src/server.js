@@ -28,32 +28,35 @@ app.get('/', function(req, res) {
 app.get('/tasks', async (req, res) => {
   try {
     const data = await fs.readFile(tareasFilePath, 'utf-8');
-    const tareas = JSON.parse(data); // Redundante, en todo caso comprueba que sea JSON válido, si no lo es, devuelve un error. Y la cosa es que paso de JSON a objeto y luego de objeto a JSON. Podría devolver directamente el JSON. 
-    res.json(tareas);
+    const tasks = JSON.parse(data); // Redundante, en todo caso comprueba que sea JSON válido, si no lo es, devuelve un error. Y la cosa es que paso de JSON a objeto y luego de objeto a JSON. Podría devolver directamente el JSON. 
+    res.json(tasks);
   } catch (error) {
-    console.error('Error al leer el archivo de tareas:', error);
+    console.error('Error al leer el archivo de tasks:', error);
     res.status(500).json({ mensaje: 'Error interno del servidor en el get' });
   }
 });
-
-app.post('/tasks', async (req, res) => {
+// A lo mejor tengo que cambiar la ruta de get y post. 
+app.post('/addTask', async (req, res) => {
   try {
-    const nuevaTarea = {
+    const newTask = {
       id: Date.now(),
       descripcion: req.body.descripcion,
       completada: false,
     };
 
+    let taskList = [];
     const data = await fs.readFile(tareasFilePath, 'utf-8');
-    const tareas = JSON.parse(data);
+    if (data.toString()) {
+      taskList = JSON.parse(data);
+    }
 
-    tareas.push(nuevaTarea);
+    taskList.push(newTask);
 
-    await fs.writeFile(tareasFilePath, JSON.stringify(tareas, null, 2), 'utf-8');
+    await fs.writeFile(tareasFilePath, JSON.stringify(taskList, null, 2), 'utf-8');
 
-    res.status(201).json(nuevaTarea);
+    res.status(201).json(newTask);
   } catch (error) {
-    console.error('Error al escribir en el archivo de tareas:', error);
+    console.error('Error al escribir en el archivo de tasks añadiendo tarea:', error);
     res.status(500).json({ mensaje: 'Error interno del servidor' });
   }
 });

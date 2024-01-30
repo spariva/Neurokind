@@ -1,10 +1,10 @@
 {
   "name": "src",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
-    "devStart": "nodemon server.js"
+    "devStart": "nodemon server.js",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "Maki Spariva",
@@ -16,5 +16,6 @@
   "devDependencies": {
     "dotenv": "^16.4.1",
     "nodemon": "^3.0.3"
-  }
+  },
+  "description": ""
 }

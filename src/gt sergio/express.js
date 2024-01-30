@@ -47,7 +47,7 @@ app.post('/anadirTarea', (req, res) => {
         }
 
         // Si el archivo existe, añade la tarea a la lista existente
-        let tareas = [];
+        let tareas = [];    
         if (data.toString()) {
             tareas = JSON.parse(data);
         }
