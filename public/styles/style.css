@@ -1,28 +1,46 @@
+:root {
+  --unit: 1px; }
+
 body {
-  background-color: #e3e3e3; }
+  height: 20vh;
+  margin: 0;
+  display: grid;
+  background: #cc91d3;
+  background-image: -moz-linear-gradient(bottom, #cc91d3 0%, #847de2 100%);
+  background-image: -webkit-linear-gradient(bottom, #cc91d3 0%, #847de2 100%);
+  background-image: linear-gradient(to top, #cc91d3 0%, #847de2 100%);
+  background-repeat: no-repeat;
+  background-size: cover; }
 
 #contenido {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; }
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center; }
 
 .listaTareas {
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
-  align-items: center;
-  justify-content: center; }
+  justify-content: center;
+  align-items: center; }
 
 .formulario {
   display: flex;
   flex-direction: column;
+  flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
   padding: 20px;
   margin: 30px;
-  border: 2px solid #000000;
-  border-radius: 15px;
-  background-color: #d4d4d4;
+  border: 2px solid #1b1919;
+  border-radius: 20px;
+  background-color: #85d9c3;
   width: 400px;
   font-size: 20px; }
   .formulario button {
@@ -32,7 +50,7 @@ body {
     margin: 5px; }
 
 .tarea {
-  background-color: #e5e5e5;
+  background-color: #b9c4c5;
   width: 300px;
   border-radius: 25px;
   margin: 20px;
@@ -42,39 +60,107 @@ body {
   font-size: 17px;
   font-family: Arial;
   text-align: center;
-  padding: 10px; }
+  padding: 10px;
+  padding-right: 20px;
+  position: relative; }
 
 .tarea-negro {
-  color: #000000;
-  border: 3px solid #000000; }
+  color: #1b1919;
+  border: 3px solid #1b1919; }
 
 .tarea-rojo {
-  color: #d86161;
-  border: 3px solid #d86161; }
+  color: #cf4d46;
+  border: 3px solid #cf4d46; }
 
 .tarea-verde {
-  color: #61d88d;
-  border: 3px solid #61d88d; }
+  color: #79e6a1;
+  border: 3px solid #79e6a1; }
 
 .tarea-azul {
-  color: #61c0d8;
-  border: 3px solid #61c0d8; }
+  color: #5c7ddf;
+  border: 3px solid #5c7ddf; }
 
 .tarea-naranja {
-  color: #d89d06;
-  border: 3px solid #d89d06; }
+  color: #ebc158;
+  border: 3px solid #ebc158; }
 
 .tarea-morado {
-  color: #884ac7;
-  border: 3px solid #884ac7; }
+  color: #b083dd;
+  border: 3px solid #b083dd; }
 
 .hidden {
   display: none; }
 
-#botonMas {
-  width: 60px; }
+.mostrar {
+  display: block; }
+
+.boton-especial {
+  width: calc(60 * var(--unit));
+  height: 60px;
+  background: #b083dd;
+  background-image: -moz-linear-gradient(bottom, #b083dd 0%, #ebc158 100%);
+  background-image: -webkit-linear-gradient(bottom, #b083dd 0%, #ebc158 100%);
+  background-image: linear-gradient(to right, #b083dd 0%, #ebc158 100%);
+  background-repeat: no-repeat;
+  background-size: cover; }
 
 #mostrarFormulario {
   border-radius: 100%; }
+
+.mensajes {
+  border: 2px solid #3aa343;
+  color: #3aa343;
+  background-color: white;
+  border-radius: 20px;
+  padding: 10px;
+  margin: 20px;
+  text-align: center;
+  font-weight: bold;
+  transition: 1.0s ease; }
+
+.errores {
+  border: 2px solid #c33030;
+  color: #c33030;
+  background-color: white;
+  border-radius: 20px;
+  padding: 10px;
+  margin: 20px;
+  text-align: center;
+  font-weight: bold;
+  transition: 1.0s ease; }
+
+.bienvenida {
+  border: 2px solid #1b1919;
+  color: #1b1919;
+  background-color: white;
+  border-radius: 20px;
+  padding: 10px;
+  margin: 20px;
+  text-align: center;
+  font-weight: bold;
+  transition: 1.0s ease; }
+
+.botonCerrar {
+  position: absolute;
+  right: 0;
+  top: 0;
+  border: 1px solid white;
+  border-radius: 100%;
+  background-color: red;
+  color: white;
+  font-weight: bold; }
+
+.botonEditar {
+  position: absolute;
+  right: 0;
+  bottom: 0; }
+
+#eliminarTodasLasTareas {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  margin-top: 200px;
+  margin-bottom: 10px; }
 
 /*# sourceMappingURL=style.css.map */

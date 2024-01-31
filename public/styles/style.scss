@@ -1,39 +1,25 @@
-$color-fondo: #884ac7;
-$color-fondo-tarea: #e5e5e5;
-$color-fondo-formulario: #d4d4d4;
-
-$color-texto: #000;
-$color-body: #e3e3e3;
-
-$naranja: #d89d06;
-$morado: #884ac7;
-$verde: #61d88d;
-$azul: #61c0d8;
-$rojo: #d86161;
-$negro: #000000;
-
-//$colores: ("negro", $negro), ("rojo", $rojo), ("verde", $verde), ("azul", $azul), ("naranja", $naranja), ("morado", $morado);
-$colores: "negro"$negro, "rojo"$rojo, "verde"$verde, "azul"$azul, "naranja"$naranja, "morado"$morado;
-
-$borde-formulario: 15px;
-$borde-tarea: 25px;
-
-$ancho-tarea: 300px;
-$ancho-formulario: 400px;
-
-
-$tamano-texto-tarea: 17px;
-$tamano-texto-formulario: 20px;
-
-$altura: 150px;
-
-$fuente-tarea: Arial;
-
-$color-mensajes: #3aa343;
-$color-errores: #c33030;
+//1. Variables: Define variables tales como colores principales, tamaños de fuente y márgenes 
+// específicos para la interfaz de un Gestor de Tareas.
+// 2. Mixins: Define al menos 5 mixins que apliquen estilos coherentes para elementos comunes 
+// como botones, formularios y tarjetas de tareas.
+// 3. Funciones: Utiliza las funciones incluidas en Sass (puedes utilizar otras que no aparezcan en 
+// listado), utiliza al menos 4.
+// 4. Operadores: Utiliza operadores para generar estilos para diferentes prioridades de tareas, 
+// ajustando colores y estilos automáticamente. (Los que consideres convenientes)
+// 5. Utiliza al menos en 5 ocaciones @if, @while, @each, @for, …
+// 6. Realiza comentarios en tu código Sass para explicar el propósito de las variables, mixins, 
+// funciones y estructuras de control que has creado
+@import "mixins";
+@import "variables";
+:root {
+    --unit: 1px;
+}
 
 body {
-    background-color: $color-body;
+    height: 20vh;
+	margin: 0;
+	display: grid;
+    @include degradadoDual($color-fondo, $color-body, top);
 }
 
 #contenido {
@@ -41,20 +27,15 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    @include flexOptions(column, wrap, center, center);
 }
 
 .listaTareas {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
+    @include flexOptions(column, wrap, center, center);
 }
 
 .formulario{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    @include flexOptions(column, nowrap, center, center);
     padding: 20px;
     margin: 30px;
     border: 2px solid $negro;
@@ -71,22 +52,6 @@ body {
     input{
         margin: 5px;
     }
-}
-
-@mixin tareas($color-fondo-tarea, $borde-tarea, $ancho-tarea, $tamano-texto-tarea, $fuente) {
-    background-color: $color-fondo-tarea;
-    width: $ancho-tarea;
-    border-radius: $borde-tarea;
-    margin: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: $tamano-texto-tarea;
-    font-family: $fuente;
-    text-align: center;
-    padding: 10px;
-    padding-right: 20px;
-    position: relative;
 }
 
 .tarea {
@@ -117,8 +82,10 @@ body {
     display:block;
 }
 
-#botonMas{
-    width: 60px;
+.boton-especial{
+    width: calc(60 * var(--unit));  
+    height: 60px;
+    @include degradadoDual($morado, $naranja, right);
 }
 
 #mostrarFormulario{

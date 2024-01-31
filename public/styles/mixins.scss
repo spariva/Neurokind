@@ -1,0 +1,34 @@
+//Solo iría en la dirección deseada si no usa las versiones antiguas de navegadores.
+@mixin degradadoDual($color1, $color2, $direction) {
+    background: $color1;
+    background-image: -moz-linear-gradient(bottom, $color1 0%, $color2 100%);
+    background-image: -webkit-linear-gradient(bottom, $color1 0%, $color2 100%);
+    background-image: linear-gradient(to $direction, $color1 0%, $color2 100%);
+    background-repeat: no-repeat;
+    background-size: cover;
+    // filter: progid:DXImageTransform.Microsoft.gradient( startColorstr= $color1, endColorstr= $color2,GradientType=1 );
+}
+
+@mixin flexOptions($direction, $wrap, $justify, $align) {
+    display: flex;
+    flex-direction: $direction;
+    flex-wrap: $wrap;
+    justify-content: $justify;
+    align-items: $align;
+}
+
+@mixin tareas($color-fondo-tarea, $borde-tarea, $ancho-tarea, $tamano-texto-tarea, $fuente) {
+    background-color: $color-fondo-tarea;
+    width: $ancho-tarea;
+    border-radius: $borde-tarea;
+    margin: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: $tamano-texto-tarea;
+    font-family: $fuente;
+    text-align: center;
+    padding: 10px;
+    padding-right: 20px;
+    position: relative;
+}
