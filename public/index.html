@@ -50,15 +50,15 @@
                 <input type="date" id="editFecha" name="editFecha"><br>
                 <label for="editColor">Color:</label><br>
                 <select id="editColor" name="editColor">
-                    <option value="negro" selected>Negro</option>
                     <option value="morado">Morado</option>
-                    <option value="verde">Verde</option>
+                    <option value="verde">Menta</option>
                     <option value="azul">Azul</option>
                     <option value="naranja">Naranja</option>
-                    <option value="rojo">Rojo</option>
+                    <option value="rojo">Rosa</option>
                 </select><br>
                 <input class="hidden" type="text" id="editId">
-                <input type="submit" value="Guardar cambios">
+                <input type="submit" value="Guardar">
+                <input type="button" value="Imprimir" onclick="downloadPDF()">
             </form>
         </div>
 
@@ -142,7 +142,7 @@
                 setTimeout(function () {
                     notificaciones.classList.remove('mostrar');
                     notificaciones.classList.add('bienvenida');
-                    document.getElementById('notificaciones').innerText = 'Bienvenid@ al Gestor de Tareas';
+                    document.getElementById('notificaciones').innerText = 'Holi =)';
                 }, 3000);
             };
         </script>

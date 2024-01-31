@@ -68,8 +68,10 @@ app.post('/anadirTarea', (req, res) => {
     };
 
     fs.readFile('tareas.json', (err, data) => {
-        if (err) throw err;
-        
+        if (err) {
+            throw err;
+        }
+
         let tareas = [];
         if (data.toString()) {
             tareas = JSON.parse(data);
@@ -79,26 +81,38 @@ app.post('/anadirTarea', (req, res) => {
         fs.writeFile('tareas.json', JSON.stringify(tareas), error => {
             if (error) res.redirect('/index.html?error=Error al añadir la tarea');
 
-            res.redirect('/index.html?mensaje=¡Success!');
+            res.redirect('/index.html?mensaje=¡Success =)!');
         });
     });
 });
 
-
 app.put('/editarTarea/:id', (req, res) => {
     const idTarea = Number(req.params.id);
-    const tareaActualizada = req.body;
+    const tareaActualizada = {
+        id: idTarea,
+        nombre: req.body.tarea,
+        categoria: req.body.categoria,
+        fecha: req.body.fecha,
+        color: req.body.color
+    };
+
 
     fs.readFile('tareas.json', 'utf8', (err, data) => {
         if (err) {
             console.error('Error al leer el archivo');
             res.status(500).send('Error al leer el archivo');
         } else {
-            let tareas = JSON.parse(data);
+            let tareas = [];
+            if (data.toString()) {
+                tareas = JSON.parse(data);
+            }
 
             const index = tareas.findIndex(tarea => Number(tarea.id) === idTarea);
             if (index !== -1) {
-                tareas[index] = { id: tareas[index].id, ...tareaActualizada };
+                // Reemplazar la tarea actual por la tarea actualizada
+                // tareas[index] = { ...tareaActualizada };
+                tareas.splice(index, 1);
+                tareas.push(tareaActualizada);
                 fs.writeFile('tareas.json', JSON.stringify(tareas), 'utf8', err => {
                     if (err) {
                         console.error('Error al escribir en el archivo');
@@ -114,8 +128,9 @@ app.put('/editarTarea/:id', (req, res) => {
     });
 });
 
+
 app.delete('/eliminarTarea/:id', (req, res) => {
-    const id = req.params.id; 
+    const id = req.params.id;
 
     fs.readFile('tareas.json', (err, data) => {
         if (err) throw err;
@@ -136,7 +151,7 @@ app.delete('/eliminarTarea/:id', (req, res) => {
 
         fs.writeFile('tareas.json', JSON.stringify(tareas), (err) => {
             if (err) throw err;
-            res.sendStatus(200); 
+            res.sendStatus(200);
         });
     });
 });
@@ -151,6 +166,7 @@ app.delete('/eliminarTodasLasTareas', (req, res) => {
         }
     });
 });
+
 
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en el http://localhost:${PORT}`);

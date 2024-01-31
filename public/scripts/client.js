@@ -47,3 +47,19 @@ document.querySelector('#editForm').addEventListener('submit', function (event) 
         }
     });
 });
+
+function downloadPDF() {
+    const listaTareas = document.getElementById("listaTareas");
+
+    html2pdf()
+        .set({
+            margin: 1,
+            filename: 'document.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 3, letterRendering: true },
+            jsPDF: { unit: 'in', format: 'a3', orientation: 'portrait' }
+        })
+        .from(listaTareas)
+        .save()
+        .catch(err => console.log(err));
+}
