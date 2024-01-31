@@ -3,5 +3,19 @@
         "id": 1,
         "title": "Task 1",
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl eget ultricies aliquam, nunc nisi aliquet nunc, vitae aliquam nisl nunc eu nisi. Sed vitae nisl eget nisl aliquam aliquet. Sed vitae nisl eget nisl aliquam aliquet."
+    },
+    {
+        "id": 1706636321536,
+        "nombre": "dwfjwefbwef",
+        "categoria": "",
+        "fecha": "",
+        "color": "negro"
+    },
+    {
+        "id": 1706636324903,
+        "nombre": "weflhwefoibwef",
+        "categoria": "",
+        "fecha": "",
+        "color": "negro"
     }
 ]

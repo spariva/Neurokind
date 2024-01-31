@@ -12,9 +12,11 @@
 
     <div id="contenido">
 
-        <!--<button id="mostrarFormulario"><img id="botonMas" src="img/mas.png"></button>-->
+        <div class="bienvenida" id="notificaciones">Bienvenid@ al Gestor de Tareas</div>
 
-        <div class="formulario">
+        <button id="mostrarFormulario"><img id="botonMas" src="img/mas.png"></button>
+
+        <div class="formulario hidden">
             <form action="/anadirTarea" method="POST">
                 Tarea: <input type="text" name="tarea" required>
                 <br>
@@ -34,8 +36,44 @@
             </form>
         </div>
 
-       <script>
+        <!-- Formulario de edición -->
+        <div id="editForm" style="display: none;">
+            <h2>Editar tarea</h2>
+            <form id="editTareaForm">
+                <label for="editNombre">Nombre:</label><br>
+                <input type="text" id="editNombre" name="editNombre"><br>
+                <label for="editCategoria">Categoria:</label><br>
+                <input type="text" id="editCategoria" name="editCategoria"><br>
+                <label for="editFecha">Fecha:</label><br>
+                <input type="date" id="editFecha" name="editFecha"><br>
+                <label for="editColor">Color:</label><br>
+                <input type="text" id="editColor" name="editColor"><br>
+                <input type="text" id="editId">
+                <input type="submit" value="Guardar cambios">
+            </form>
+        </div>
+
+        <script>
             window.onload = function () {
+                const urlParams = new URLSearchParams(window.location.search);
+                const mensaje = urlParams.get('mensaje');
+                const error = urlParams.get('error');
+                const notificaciones = document.getElementById('notificaciones');
+
+                if (mensaje) {
+                    document.getElementById('notificaciones').innerText = decodeURIComponent(mensaje);
+                    notificaciones.classList.remove('bienvenida');
+                    notificaciones.classList.add('mensajes');
+                    notificaciones.classList.add('mostrar');
+                }
+
+                if (error) {
+                    document.getElementById('notificaciones').innerText = decodeURIComponent(error);
+                    notificaciones.classList.remove('bienvenida');
+                    notificaciones.classList.add('errores');
+                    notificaciones.classList.add('mostrar');
+                }
+
                 fetch('/tareas')
                     .then(response => response.json())
                     .then(tareas => {
@@ -44,18 +82,67 @@
                             const div = document.createElement('div');
                             div.className = 'tarea'; // Añade la clase 'tareas' al div
                             div.classList.add(`tarea-${tarea.color}`); // Añade la clase basada en el color de la tarea
-                            div.innerHTML = `${tarea.nombre}<br> Categoria: ${tarea.categoria}<br> Fecha: ${tarea.fecha}`;
+
+                            let contenido = `${tarea.nombre}<br>`;
+                            if (tarea.categoria) {
+                                contenido += `Categoria: ${tarea.categoria}<br>`;
+                            }
+                            if (tarea.fecha) {
+                                contenido += `Fecha: ${tarea.fecha}`;
+                            }
+
+                            div.innerHTML = contenido;
+
+                            // Botón de editar
+                            const editButton = document.createElement('button');
+                            editButton.innerText = 'Editar';
+                            editButton.addEventListener('click', function () {
+                                document.querySelector('#editForm').style.display = 'block'; // Muestra el formulario de edición
+                                document.querySelector('#editNombre').value = tarea.nombre; // Carga el nombre de la tarea en el formulario
+                                document.querySelector('#editCategoria').value = tarea.categoria; // Carga la categoría de la tarea en el formulario
+                                document.querySelector('#editFecha').value = tarea.fecha; // Carga la fecha de la tarea en el formulario
+                                document.querySelector('#editColor').value = tarea.color; // Carga el color de la tarea en el formulario
+                                document.querySelector('#editId').value = tarea.id;
+                            });
+                            div.appendChild(editButton);
+
+
+                            // botón de eliminar
+                            const closeButton = document.createElement('button');
+                            closeButton.innerText = 'X';
+                            closeButton.className = 'closeButton';
+                            closeButton.onclick = function () {
+
+                                fetch(`/eliminarTarea/${tarea.id}`, { method: 'DELETE' })
+                                    .then(response => {
+                                        if (response.ok) {
+                                            div.remove(); // Elimina la tarea de la interfaz de usuario
+                                        } else {
+                                            console.error('Error al eliminar la tarea');
+                                        }
+                                    });
+                            };
+                            div.appendChild(closeButton);
+
                             listaTareas.appendChild(div);
                         });
                     });
+
+
+                setTimeout(function () {
+                    notificaciones.classList.remove('mostrar');
+                    notificaciones.classList.add('bienvenida');
+                    document.getElementById('notificaciones').innerText = 'Bienvenid@ al Gestor de Tareas';
+                }, 3000);
             };
         </script>
+
         <div class="listaTareas">
         </div>
 
-
     </div>
 
+    <script src="script.js"></script>
 
 </body>
 

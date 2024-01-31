@@ -28,7 +28,8 @@ app.get('/', function(req, res) {
 app.get('/tasks', async (req, res) => {
   try {
     const data = await fs.readFile(tareasFilePath, 'utf-8');
-    const tasks = JSON.parse(data); // Redundante, en todo caso comprueba que sea JSON válido, si no lo es, devuelve un error. Y la cosa es que paso de JSON a objeto y luego de objeto a JSON. Podría devolver directamente el JSON. 
+    let tasks = [];
+    tasks = JSON.parse(data); // Redundante, en todo caso comprueba que sea JSON válido, si no lo es, devuelve un error. Y la cosa es que paso de JSON a objeto y luego de objeto a JSON. Podría devolver directamente el JSON. 
     res.json(tasks);
   } catch (error) {
     console.error('Error al leer el archivo de tasks:', error);
