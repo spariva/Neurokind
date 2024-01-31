@@ -29,6 +29,9 @@ $altura: 150px;
 
 $fuente-tarea: Arial;
 
+$color-mensajes: #3aa343;
+$color-errores: #c33030;
+
 body {
     background-color: $color-body;
 }
@@ -82,12 +85,13 @@ body {
     font-family: $fuente;
     text-align: center;
     padding: 10px;
+    padding-right: 20px;
+    position: relative;
 }
 
 .tarea {
     @include tareas($color-fondo-tarea, $borde-tarea, $ancho-tarea, $tamano-texto-tarea, $fuente-tarea);
 }
-
 
 @mixin tarea-color($color-texto, $borde-tarea) {
     color: $color-texto;
@@ -109,11 +113,64 @@ body {
     display: none;
 }
 
+.mostrar{
+    display:block;
+}
+
 #botonMas{
     width: 60px;
 }
 
 #mostrarFormulario{
     border-radius: 100%;
-
 }
+
+@mixin notificaciones($color-notificacion){
+    border: 2px solid $color-notificacion;
+    color: $color-notificacion;
+    background-color: white;
+    border-radius: 20px;
+    padding: 10px;
+    margin:20px;
+    text-align: center;
+    font-weight: bold;
+    transition: 1.0s ease;
+}
+
+.mensajes{
+    @include notificaciones($color-mensajes)
+}
+
+.errores{
+    @include notificaciones($color-errores)
+}
+
+.bienvenida{
+    @include notificaciones($negro)
+}
+
+.botonCerrar {
+    position: absolute;
+    right: 0;
+    top: 0;
+    border: 1px solid white;
+    border-radius: 100%;
+    background-color: red;
+    color: white;
+    font-weight: bold;
+}
+
+.botonEditar {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+ }
+
+ #eliminarTodasLasTareas {
+    position:absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    margin-top: 200px;
+    margin-bottom: 10px;
+  }

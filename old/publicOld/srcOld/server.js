@@ -14,7 +14,12 @@ const cors = require('cors');
 const app = express();
 const PORT = process.env.PORT;
 const tareasFilePath = 'tasks.json';
+var corsOptions = {
+  origin: 'http://localhost.com',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+}
 
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cors()); 
 app.use(bodyParser.urlencoded({ extended: true })); // Para que funcione correctamente el formulario

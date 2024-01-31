@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neurokind</title>
+    <title>To-Do</title>
     <link rel="stylesheet" href="./styles/style.css">
 </head>
 
@@ -12,7 +12,9 @@
 
     <div id="contenido">
 
-        <div class="bienvenida" id="notificaciones">Welcome!</div>
+        <div class="bienvenida" id="notificaciones">Bienvenid@ al Gestor de Tareas</div>
+
+        <button id="eliminarTodasLasTareas">Eliminar todas las tareas</button><br>
 
         <button id="mostrarFormulario"><img id="botonMas" src="img/mas.png"></button>
 
@@ -47,8 +49,15 @@
                 <label for="editFecha">Fecha:</label><br>
                 <input type="date" id="editFecha" name="editFecha"><br>
                 <label for="editColor">Color:</label><br>
-                <input type="text" id="editColor" name="editColor"><br>
-                <input type="text" id="editId">
+                <select id="editColor" name="editColor">
+                    <option value="negro" selected>Negro</option>
+                    <option value="morado">Morado</option>
+                    <option value="verde">Verde</option>
+                    <option value="azul">Azul</option>
+                    <option value="naranja">Naranja</option>
+                    <option value="rojo">Rojo</option>
+                </select><br>
+                <input class="hidden" type="text" id="editId">
                 <input type="submit" value="Guardar cambios">
             </form>
         </div>
@@ -95,7 +104,8 @@
 
                             // Botón de editar
                             const editButton = document.createElement('button');
-                            editButton.innerText = 'Editar';
+                            editButton.innerText = 'Edit';
+                            editButton.className = 'botonEditar';
                             editButton.addEventListener('click', function () {
                                 document.querySelector('#editForm').style.display = 'block'; // Muestra el formulario de edición
                                 document.querySelector('#editNombre').value = tarea.nombre; // Carga el nombre de la tarea en el formulario
@@ -110,7 +120,7 @@
                             // botón de eliminar
                             const closeButton = document.createElement('button');
                             closeButton.innerText = 'X';
-                            closeButton.className = 'closeButton';
+                            closeButton.className = 'botonCerrar';
                             closeButton.onclick = function () {
 
                                 fetch(`/eliminarTarea/${tarea.id}`, { method: 'DELETE' })

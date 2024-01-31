@@ -3,36 +3,33 @@ document.getElementById('mostrarFormulario').addEventListener('click', function(
     form.classList.toggle('hidden'); 
 });
 
-// Cuando se envía el formulario de edición
-document.querySelector('#editTareaForm').addEventListener('submit', function (event) {
-    // Evita el comportamiento de envío de formulario predeterminado
-    event.preventDefault();
+document.querySelector('#eliminarTodasLasTareas').addEventListener('click', function() {
+    fetch('/eliminarTodasLasTareas', { method: 'DELETE' })
+        .then(response => {
+            if (response.ok) {
+                const listaTareas = document.querySelector('.listaTareas');
+                while (listaTareas.firstChild) {
+                    listaTareas.firstChild.remove();
+                }
+            } else {
+                console.error('Error al eliminar todas las tareas');
+            }
+        });
+});
 
-    const idTarea = document.querySelector('#editId').value;
 
-    const tareaActualizada = {
-        id: document.querySelector('#editId').value,
-        nombre: document.querySelector('#editNombre').value,
-        categoria: document.querySelector('#editCategoria').value,
-        fecha: document.querySelector('#editFecha').value,
-        color: document.querySelector('#editColor').value
-    };
+document.querySelector('#editForm').addEventListener('submit', function (event) {
+    event.preventDefault(); 
 
-    /*fetch(`/editarTarea/${idTarea}`, { method: 'PUT' })
-    .then(response => {
-        if (response.ok) {
-            // Si la respuesta es exitosa, oculta el formulario de edición y recarga las tareas
-            document.querySelector('#editForm').style.display = 'none';
-            window.location.href = 'index.html?mensaje=Tarea editada :)';
-        } else {
-            console.error('Error al actualizar la tarea');
-            window.location.href = 'index.html?error=Problema al editar la tarea';
-        }*/
+    const id = document.querySelector('#editId').value;
+    const nombre = document.querySelector('#editNombre').value;
+    const categoria = document.querySelector('#editCategoria').value;
+    const fecha = document.querySelector('#editFecha').value;
+    const color = document.querySelector('#editColor').value;
 
-    //Envio de una solicitud PUT 
-    console.log(fetch);
-    console.log(idTarea, tareaActualizada);
-    fetch(`/actualizarTarea/${idTarea}`, {
+    const tareaActualizada = { nombre, categoria, fecha, color };
+
+    fetch(`/editarTarea/${id}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
@@ -41,9 +38,9 @@ document.querySelector('#editTareaForm').addEventListener('submit', function (ev
     })
     .then(response => {
         if (response.ok) {
-            // Si la respuesta es exitosa, oculta el formulario de edición y recarga las tareas
+
             document.querySelector('#editForm').style.display = 'none';
-            window.location.href = 'index.html?mensaje=Tarea editada :)';
+            window.location.href = 'index.html?mensaje=Tarea editada';
         } else {
             console.error('Error al actualizar la tarea');
             window.location.href = 'index.html?error=Problema al editar la tarea';

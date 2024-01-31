@@ -68,16 +68,8 @@ app.post('/anadirTarea', (req, res) => {
     };
 
     fs.readFile('tareas.json', (err, data) => {
-        if (err && err.code === 'ENOENT') {
-            // Si el archivo no existe, crea uno nuevo
-            return fs.writeFile('tareas.json', JSON.stringify([tarea]), error => {
-                if (error) throw error;
-                res.redirect('/index.html?mensaje=¡Tarea%20añadida y fichero JSON creado!');
-            });
-        } else if (err) {
-            throw err;
-        }
-
+        if (err) throw err;
+        
         let tareas = [];
         if (data.toString()) {
             tareas = JSON.parse(data);
@@ -87,37 +79,38 @@ app.post('/anadirTarea', (req, res) => {
         fs.writeFile('tareas.json', JSON.stringify(tareas), error => {
             if (error) res.redirect('/index.html?error=Error al añadir la tarea');
 
-            res.redirect('/index.html?mensaje=¡Tarea%20añadida!');
+            res.redirect('/index.html?mensaje=¡Success!');
         });
     });
 });
 
 
 app.put('/editarTarea/:id', (req, res) => {
-    const id = req.params.id;
+    const idTarea = Number(req.params.id);
     const tareaActualizada = req.body;
 
-    fs.readFile('tareas.json', (err, data) => {
-        if (err) throw err;
+    fs.readFile('tareas.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error('Error al leer el archivo');
+            res.status(500).send('Error al leer el archivo');
+        } else {
+            let tareas = JSON.parse(data);
 
-        let tareas = JSON.parse(data);
-
-        // Encontrar el índice de la tarea con el ID correspondiente
-        const index = tareas.findIndex(tarea => tarea.id == id);
-
-        // Si la tarea no se encuentra, enviar un error
-        if (index === -1) {
-            res.status(404).send('Tarea no encontrada');
-            return;
+            const index = tareas.findIndex(tarea => Number(tarea.id) === idTarea);
+            if (index !== -1) {
+                tareas[index] = { id: tareas[index].id, ...tareaActualizada };
+                fs.writeFile('tareas.json', JSON.stringify(tareas), 'utf8', err => {
+                    if (err) {
+                        console.error('Error al escribir en el archivo');
+                        res.status(500).send('Error al escribir en el archivo');
+                    } else {
+                        res.send('Tarea editada :)');
+                    }
+                });
+            } else {
+                res.status(404).send('Tarea no encontrada');
+            }
         }
-
-        // Actualizar la tarea en el array (solo campos cambiados)
-        tareas[index] = {...tareas[index], ...tareaActualizada};
-
-        fs.writeFile('tareas.json', JSON.stringify(tareas), (err) => {
-            if (err) throw err;
-            res.sendStatus(200); 
-        });
     });
 });
 
@@ -148,6 +141,16 @@ app.delete('/eliminarTarea/:id', (req, res) => {
     });
 });
 
+app.delete('/eliminarTodasLasTareas', (req, res) => {
+    fs.writeFile('tareas.json', JSON.stringify([]), 'utf8', err => {
+        if (err) {
+            console.error('Error al escribir en el archivo');
+            res.status(500).send('Error al escribir en el archivo');
+        } else {
+            res.send('Todas las tareas han sido eliminadas');
+        }
+    });
+});
 
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en el http://localhost:${PORT}`);
