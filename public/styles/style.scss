@@ -12,10 +12,6 @@
 @import "mixins";
 @import "variables";
 
-:root {
-    --unit: 1px;
-}
-
 body {
     height: 20vh;
 	margin: 0;
@@ -29,21 +25,49 @@ body {
 
 .listaTareas {
     @include flexOptions(row, nowrap, center, center);
+    gap: 30 * $unit;
 }
 
 .formulario{
     @include flexOptions(column, nowrap, center, center);
+    align-items: center;
     padding: 20px;
     margin: 30px;
-    border: 2px solid $negro;
+    border: 2px solid darken($color-fondo-formulario, 20%);
     border-radius: $borde-formulario;
     background-color: $color-fondo-formulario;
     width: $ancho-formulario;
     font-size: $tamano-texto-formulario;
+    font-family: $primary-font;
 
     button {
         margin-top: 10px;
         margin: 10px auto 0;
+        @include botones(lighten($naranja, 20%), $azul, $color-body, lighten(invert($naranja), 50%));
+    }
+
+    input{
+        margin: 5px;
+    }
+}
+
+#editTareaForm{
+    @include flexOptions(column, nowrap, center, center);
+    align-items: center;
+    padding: 10px;
+    margin: 20px;
+    border: 2px solid darken($color-fondo-formulario, 20%);
+    border-radius: $borde-formulario;
+    background-color: $color-fondo-formulario;
+    width: $ancho-formulario * 0.8;
+    font-size: $font-size;
+    font-family: $secondary-font;
+    //input type submit:
+    input[type=submit] {
+        margin-top: 5px;
+        margin: 5px auto 0;
+        @include botones(lighten($naranja, 20%), $azul, $color-body, lighten(invert($naranja), 50%));
+        font-family: $tertiary-font;
     }
 
     input{
@@ -73,7 +97,26 @@ body {
 
     .tarea-#{$nombre} {
         @include temaTarea($title_color, $icon_color, $text_color, $border_color, $bg_color);
+        // @debug $nombre;
+        @if ($nombre == "light_purple") {
+            .botonEditar, .botonCerrar{
+                color: $icon_color;
+                background-color: lighten($text_color,30%);
+            } 
+        }@else if ($nombre == "light_mint") {
+            .botonEditar, .botonCerrar{
+                color: $text_color;
+                background-color: lighten($bg_color,10%);
+            }
+        }@else if ($nombre == "gruvbox_light") {
+            .botonEditar, .botonCerrar{
+                color: $icon_color;
+                background-color: lighten($bg_color,10%);
+            }
+        }
     }
+            
+            
 }
 
 .hidden {
@@ -85,25 +128,22 @@ body {
 }
 
 .boton-especial{
-    width: calc(60 * var(--unit));  
-    height: 60px;
+    width: 6 * $unit;  
+    height: 6 * $unit;
     @include degradadoDual($morado, $naranja, right);
+    &:hover{
+        @include degradadoDual($verde, $morado, right);
+        transform: scale(1.1);
+    }
 }
 
 #mostrarFormulario{
     border-radius: 100%;
 }
 
-@mixin notificaciones($color-notificacion){
-    border: 2px solid $color-notificacion;
-    color: $color-notificacion;
-    background-color: white;
-    border-radius: 20px;
-    padding: 10px;
-    margin:20px;
-    text-align: center;
-    font-weight: bold;
-    transition: 1.0s ease;
+.botonAñadir {
+    @include botones(lighten($naranja, 20%), $azul, $color-body, lighten(invert($naranja), 50%));
+    transform: translateX(110%);    
 }
 
 .mensajes{
@@ -115,13 +155,11 @@ body {
 }
 
 .bienvenida{
-    @include notificaciones($negro)
+    @include notificaciones(lighetn($naranja, 20%))
 }
 
 .botonCerrar {
-    position: absolute;
-    right: 0;
-    top: 0;
+    @include absoluteBasic();
     border: 1px solid white;
     border-radius: 100%;
     background-color: $cruz;
@@ -130,16 +168,27 @@ body {
 }
 
 .botonEditar {
-    position: absolute;
-    right: 0;
-    bottom: 0;
+    @include absoluteBasic();
+    //quiero que se posicione por debajo, en el eje y, del boton cerrar
+    top: 20px;
  }
 
  #eliminarTodasLasTareas {
     position:absolute;
-    left: 50%;
+    left: 55%;
     bottom: 0;
     transform: translateX(-50%);
     margin-top: 200px;
     margin-bottom: 10px;
+    @include botones($morado, $azul, $color-body, $rojo);
+  }
+  #pdf {
+    position:absolute;
+    left: 45%;
+    bottom: 0;
+    transform: translateX(-50%);
+    margin-top: 200px;
+    margin-bottom: 10px;
+    @include botones($morado, $azul, $color-body, $verde);
+    font-family: $secondary-font;
   }

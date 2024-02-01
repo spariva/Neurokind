@@ -1,4 +1,5 @@
-$unit: 40px;
+$unit: 0.50vw;
+$unit-rem: 1.0rem;
 
 $color-fondo: #cc91d3;
 $color-fondo-tarea: #b9c4c5;
@@ -10,9 +11,9 @@ $color-body: #847de2;
 $naranja: #ebc158;
 $morado: #b083dd;
 $verde: #79e6a1;
-$azul: #5c7ddf;
+$azul: #4e73e1;
 $rojo: #cf4d46;
-$negro: #1b1919;
+$negro: #262323;
 
 $light_mint: (
     '$title_color': #00A39A,
@@ -22,11 +23,13 @@ $light_mint: (
     '$bg_color': #F6FEF8,
 );
 
+$title_color_light_purple: #b47fd7;
+
 $light_purple: (
-    '$title_color': #b47fd7,
-    '$text_color': #04628a,
-    '$icon_color': #7b5cba,
-    '$border_color': #7ab2d0,
+    '$title_color': $title_color_light_purple,
+    '$text_color': #1e9dd4,
+    '$icon_color': #9272d1,
+    '$border_color': complement($title_color_light_purple),
     '$bg_color': #d8f2f5,
 );
 
@@ -47,21 +50,25 @@ $temas: (
 
 $primary-font: 'Roboto', sans-serif;
 $secondary-font: 'Open Sans', sans-serif;
-$font-size: 16px;
+$tertiary-font: 'Montserrat', sans-serif;
+// Cambia los variables de abajo, para que queden del mismo tamaño pero sean el resultado de multiplicar la unidad por un número entero.
+$font-size: 1.3 * $unit-rem;
+$font-size-small: 1 * $unit-rem;
+$font-size-large: 2 * $unit-rem;
 
-$borde-formulario: 20px;
-$borde-tarea: 25px;
+// Cambia los variables de abajo, para que queden del mismo tamaño pero sean el resultado de multiplicar la unidad por un número entero.
+$borde-formulario: 15 * $unit;
+$borde-tarea: 8 * $unit;
 
-$ancho-tarea: 300px;
-$ancho-formulario: 400px;
+$ancho-tarea: $unit * 30;
+$ancho-formulario: $unit * 50;
 
 
-$tamano-texto-tarea: 17px;
-$tamano-texto-formulario: 20px;
+$tamano-texto-tarea: $font-size-small;
+$tamano-texto-formulario: $font-size;
 
+$fuente-tarea: $secondary-font;
+
+$color-mensajes: darken($color-fondo-formulario, 20%);
+$cruz: lighten($negro, 30%);
 $altura: 150px;
-
-$fuente-tarea: Arial;
-
-$color-mensajes: #44994b;
-$cruz: #746161;

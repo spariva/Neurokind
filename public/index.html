@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>To-Do</title>
+    <title>Neurokind v1.0</title>
     <link rel="stylesheet" href="./styles/style.css">
 </head>
 
@@ -12,33 +12,34 @@
 
     <div id="contenido">
 
-        <div class="bienvenida" id="notificaciones">Bienvenid@ al Gestor de Tareas</div>
-
+        <div class="bienvenida" id="notificaciones">Welcome</div>
+        <button id="pdf" type="button" value="Imprimir" onclick="downloadPDF()">Imprimir</button>
         <button id="eliminarTodasLasTareas">Eliminar todas las tareas</button><br>
+        
 
         <button id="mostrarFormulario" class="boton boton-especial"></button>
 
         <div class="formulario hidden">
             <form action="/anadirTarea" method="POST">
-                Tarea: <input type="text" name="tarea" required>
+                Tarea : <input type="text" name="tarea" required>
                 <br>
-                Categoria: <input type="text" name="categoria">
+                Tipo * : <input type="text" name="categoria">
                 <br>
-                Fecha: <input type="date" name="fecha">
-                Color:<select name="color">
+                Fecha : <input type="date" name="fecha">
+                Tema : <select name="color">
                     <option value="light_purple">Lila</option>
                     <option value="light_mint" selected>Menta</option>
                     <option value="gruvbox_light">Golden sunflower</option>
                 </select>
                 <br>
-                <button id="mostrarFormulario" type="submit">Añadir tarea</button>
+                <button id="mostrarFormulario" type="submit" class="botonAñadir">Añadir tarea</button>
             </form>
         </div>
 
         <!-- Formulario de edición -->
         <div id="editForm" style="display: none;">
-            <h2>Editar tarea</h2>
             <form id="editTareaForm">
+                <h2>Editar tarea</h2>
                 <label for="editNombre">Nombre:</label><br>
                 <input type="text" id="editNombre" name="editNombre"><br>
                 <label for="editCategoria">Categoria:</label><br>
@@ -53,7 +54,6 @@
                 </select><br>
                 <input class="hidden" type="text" id="editId">
                 <input type="submit" value="Guardar">
-                <input type="button" value="Imprimir" onclick="downloadPDF()">
             </form>
         </div>
 
@@ -138,13 +138,12 @@
                                 if (diasDiferencia < 7) {
                                     const listaSemana = document.querySelector('.listaSemana');
                                     listaSemana.appendChild(div);
-                                } else {
-                                    listaRelax.appendChild(div);
-                                }
+                                } 
                             } else if (tarea.categoria === 'importante') {
                                 const listaImportantes = document.querySelector('.listaImportantes');
                                 listaImportantes.appendChild(div);
-                            } else {
+                            } else {    
+                                const listaImportantes = document.querySelector('.listaImportantes');
                                 listaRelax.appendChild(div);
                             }
                         });

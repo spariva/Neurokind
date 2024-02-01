@@ -1,6 +1,4 @@
-:root {
-  --unit: 1px; }
-
+@charset "UTF-8";
 body {
   height: 20vh;
   margin: 0;
@@ -24,7 +22,8 @@ body {
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: center;
-  align-items: center; }
+  align-items: center;
+  gap: 15vw; }
 
 .formulario {
   display: flex;
@@ -32,29 +31,73 @@ body {
   flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
+  align-items: center;
   padding: 20px;
   margin: 30px;
-  border: 2px solid #1b1919;
-  border-radius: 20px;
+  border: 2px solid #3bbd9b;
+  border-radius: 7.5vw;
   background-color: #85d9c3;
-  width: 400px;
-  font-size: 20px; }
+  width: 25vw;
+  font-size: 1.3rem;
+  font-family: "Roboto", sans-serif; }
   .formulario button {
     margin-top: 10px;
-    margin: 10px auto 0; }
+    margin: 10px auto 0;
+    background-color: #f6e3b3;
+    color: #4e73e1;
+    border: 2px solid #847de2;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    transition: 1.0s ease; }
+    .formulario button:hover {
+      background-color: #c2d2f8; }
   .formulario input {
+    margin: 5px; }
+
+#editTareaForm {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  align-items: center;
+  padding: 10px;
+  margin: 20px;
+  border: 2px solid #3bbd9b;
+  border-radius: 7.5vw;
+  background-color: #85d9c3;
+  width: 20vw;
+  font-size: 1.3rem;
+  font-family: "Open Sans", sans-serif; }
+  #editTareaForm input[type=submit] {
+    margin-top: 5px;
+    margin: 5px auto 0;
+    background-color: #f6e3b3;
+    color: #4e73e1;
+    border: 2px solid #847de2;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    transition: 1.0s ease;
+    font-family: "Montserrat", sans-serif; }
+    #editTareaForm input[type=submit]:hover {
+      background-color: #c2d2f8; }
+  #editTareaForm input {
     margin: 5px; }
 
 .tarea {
   background-color: #b9c4c5;
-  width: 300px;
-  border-radius: 25px;
-  margin: 20px;
+  width: 15vw;
+  border-radius: 4vw;
+  margin: 25px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 17px;
-  font-family: Arial;
+  font-size: 1rem;
+  font-family: "Montserrat", sans-serif;
   text-align: center;
   padding: 10px;
   padding-right: 20px;
@@ -62,18 +105,27 @@ body {
 
 .tarea-light_purple {
   color: #b47fd7;
-  border: 2px solid #7ab2d0;
+  border: 2px solid #a2d77f;
   background-color: #d8f2f5; }
+  .tarea-light_purple .botonEditar, .tarea-light_purple .botonCerrar {
+    color: #9272d1;
+    background-color: #9ad7f1; }
 
 .tarea-light_mint {
   color: #00A39A;
   border: 2px solid #B9EDC3;
   background-color: #F6FEF8; }
+  .tarea-light_mint .botonEditar, .tarea-light_mint .botonCerrar {
+    color: #9C7FD7;
+    background-color: white; }
 
 .tarea-gruvbox_light {
   color: #b57614;
   border: 2px solid #f7b42d;
   background-color: #fbf1c7; }
+  .tarea-gruvbox_light .botonEditar, .tarea-gruvbox_light .botonCerrar {
+    color: #af3a03;
+    background-color: #fefdf7; }
 
 .hidden {
   display: none; }
@@ -82,21 +134,42 @@ body {
   display: block; }
 
 .boton-especial {
-  width: calc(60 * var(--unit));
-  height: 60px;
+  width: 3vw;
+  height: 3vw;
   background: #b083dd;
   background-image: -moz-linear-gradient(bottom, #b083dd 0%, #ebc158 100%);
   background-image: -webkit-linear-gradient(bottom, #b083dd 0%, #ebc158 100%);
   background-image: linear-gradient(to right, #b083dd 0%, #ebc158 100%);
   background-repeat: no-repeat;
   background-size: cover; }
+  .boton-especial:hover {
+    background: #79e6a1;
+    background-image: -moz-linear-gradient(bottom, #79e6a1 0%, #b083dd 100%);
+    background-image: -webkit-linear-gradient(bottom, #79e6a1 0%, #b083dd 100%);
+    background-image: linear-gradient(to right, #79e6a1 0%, #b083dd 100%);
+    background-repeat: no-repeat;
+    background-size: cover;
+    transform: scale(1.1); }
 
 #mostrarFormulario {
   border-radius: 100%; }
 
+.botonAñadir {
+  background-color: #f6e3b3;
+  color: #4e73e1;
+  border: 2px solid #847de2;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+  transition: 1.0s ease;
+  transform: translateX(110%); }
+  .botonAñadir:hover {
+    background-color: #c2d2f8; }
+
 .mensajes {
-  border: 2px solid #44994b;
-  color: #44994b;
+  border: 2px solid #3bbd9b;
+  color: #3bbd9b;
   background-color: white;
   border-radius: 20px;
   padding: 10px;
@@ -106,8 +179,8 @@ body {
   transition: 1.0s ease; }
 
 .errores {
-  border: 2px solid #746161;
-  color: #746161;
+  border: 2px solid #766c6c;
+  color: #766c6c;
   background-color: white;
   border-radius: 20px;
   padding: 10px;
@@ -117,8 +190,8 @@ body {
   transition: 1.0s ease; }
 
 .bienvenida {
-  border: 2px solid #1b1919;
-  color: #1b1919;
+  border: 2px solid lighetn(#ebc158, 20%);
+  color: lighetn(#ebc158, 20%);
   background-color: white;
   border-radius: 20px;
   padding: 10px;
@@ -133,21 +206,51 @@ body {
   top: 0;
   border: 1px solid white;
   border-radius: 100%;
-  background-color: #746161;
+  background-color: #766c6c;
   color: white;
   font-weight: bold; }
 
 .botonEditar {
   position: absolute;
   right: 0;
-  bottom: 0; }
+  top: 0;
+  top: 20px; }
 
 #eliminarTodasLasTareas {
   position: absolute;
-  left: 50%;
+  left: 55%;
   bottom: 0;
   transform: translateX(-50%);
   margin-top: 200px;
-  margin-bottom: 10px; }
+  margin-bottom: 10px;
+  background-color: #b083dd;
+  color: #4e73e1;
+  border: 2px solid #847de2;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+  transition: 1.0s ease; }
+  #eliminarTodasLasTareas:hover {
+    background-color: #cf4d46; }
+
+#pdf {
+  position: absolute;
+  left: 45%;
+  bottom: 0;
+  transform: translateX(-50%);
+  margin-top: 200px;
+  margin-bottom: 10px;
+  background-color: #b083dd;
+  color: #4e73e1;
+  border: 2px solid #847de2;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin: 10px;
+  cursor: pointer;
+  transition: 1.0s ease;
+  font-family: "Open Sans", sans-serif; }
+  #pdf:hover {
+    background-color: #79e6a1; }
 
 /*# sourceMappingURL=style.css.map */

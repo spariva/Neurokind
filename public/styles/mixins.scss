@@ -21,14 +21,46 @@
     background-color: $color-fondo-tarea;
     width: $ancho-tarea;
     border-radius: $borde-tarea;
-    margin: 20px;
+    margin: 25px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: $tamano-texto-tarea;
-    font-family: $fuente;
+    font-family: $tertiary-font;
     text-align: center;
     padding: 10px;
-    padding-right: 20px;
+    padding-right: 20px;    
     position: relative;
+}
+
+@mixin notificaciones($color-notificacion){
+    border: 2px solid $color-notificacion;
+    color: $color-notificacion;
+    background-color: white;
+    border-radius: 20px;
+    padding: 10px;
+    margin:20px;
+    text-align: center;
+    font-weight: bold;
+    transition: 1.0s ease;
+}
+
+@mixin botones($color-fondo, $color-texto, $color-borde, $color-hover){
+    background-color: $color-fondo;
+    color: $color-texto;
+    border: 2px solid $color-borde;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    transition: 1.0s ease;
+    &:hover{
+        background-color: $color-hover;
+    }
+}
+
+@mixin absoluteBasic(){
+    position: absolute;
+    right: 0;
+    top: 0;
 }
