@@ -1,14 +1,3 @@
-//1. Variables: Define variables tales como colores principales, tamaños de fuente y márgenes 
-// específicos para la interfaz de un Gestor de Tareas.
-// 2. Mixins: Define al menos 5 mixins que apliquen estilos coherentes para elementos comunes 
-// como botones, formularios y tarjetas de tareas.
-// 3. Funciones: Utiliza las funciones incluidas en Sass (puedes utilizar otras que no aparezcan en 
-// listado), utiliza al menos 4.
-// 4. Operadores: Utiliza operadores para generar estilos para diferentes prioridades de tareas, 
-// ajustando colores y estilos automáticamente. (Los que consideres convenientes)
-// 5. Utiliza al menos en 5 ocaciones @if, @while, @each, @for, …
-// 6. Realiza comentarios en tu código Sass para explicar el propósito de las variables, mixins, 
-// funciones y estructuras de control que has creado
 @import "mixins";
 @import "variables";
 

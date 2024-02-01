@@ -15,6 +15,7 @@ const PORT = process.env.PORT;
 
 // Para poder leer los datos del formulario
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // Servir archivos estáticos desde el directorio actual
 app.use(express.static(publicPath));
@@ -90,7 +91,7 @@ app.put('/editarTarea/:id', (req, res) => {
     const idTarea = Number(req.params.id);
     const tareaActualizada = {
         id: idTarea,
-        nombre: req.body.tarea,
+        nombre: req.body.nombre,
         categoria: req.body.categoria,
         fecha: req.body.fecha,
         color: req.body.color
