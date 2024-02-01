@@ -11,6 +11,7 @@
 // funciones y estructuras de control que has creado
 @import "mixins";
 @import "variables";
+
 :root {
     --unit: 1px;
 }
@@ -23,15 +24,11 @@ body {
 }
 
 #contenido {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     @include flexOptions(column, wrap, center, center);
 }
 
 .listaTareas {
-    @include flexOptions(column, wrap, center, center);
+    @include flexOptions(row, nowrap, center, center);
 }
 
 .formulario{
@@ -58,19 +55,24 @@ body {
     @include tareas($color-fondo-tarea, $borde-tarea, $ancho-tarea, $tamano-texto-tarea, $fuente-tarea);
 }
 
-@mixin tarea-color($color-texto, $borde-tarea) {
-    color: $color-texto;
-    border: 3px solid $color-texto;
+@mixin temaTarea($title_color, $icon_color, $text_color, $border_color, $bg_color) {
+    color: $title_color;
+    border: 2px solid $border_color;
+    background-color: $bg_color;
 }
 
-@each $color in $colores {
-    // Extraemos el nombre del color (la primera parte de cada elemento en la lista)
-    $nombre: nth($color, 1);
-    // Extraemos el código de color (la segunda parte de cada elemento en la lista)
-    $color-tarea-each: nth($color, 2);
+@each $tema in $temas {
+    $nombre: nth($tema, 1);
+    $colores: nth($tema, 2);
+
+    $title_color: map-get($colores, '$title_color');
+    $text_color: map-get($colores, '$text_color');
+    $icon_color: map-get($colores, '$icon_color');
+    $border_color: map-get($colores, '$border_color');
+    $bg_color: map-get($colores, '$bg_color');
 
     .tarea-#{$nombre} {
-        @include tarea-color($color-tarea-each, $borde-tarea);
+        @include temaTarea($title_color, $icon_color, $text_color, $border_color, $bg_color);
     }
 }
 
@@ -109,7 +111,7 @@ body {
 }
 
 .errores{
-    @include notificaciones($color-errores)
+    @include notificaciones($cruz)
 }
 
 .bienvenida{
@@ -122,7 +124,7 @@ body {
     top: 0;
     border: 1px solid white;
     border-radius: 100%;
-    background-color: red;
+    background-color: $cruz;
     color: white;
     font-weight: bold;
 }

@@ -15,18 +15,14 @@ body {
 #contenido {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center; }
 
 .listaTareas {
   display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
+  flex-direction: row;
+  flex-wrap: nowrap;
   justify-content: center;
   align-items: center; }
 
@@ -64,29 +60,20 @@ body {
   padding-right: 20px;
   position: relative; }
 
-.tarea-negro {
-  color: #1b1919;
-  border: 3px solid #1b1919; }
+.tarea-light_purple {
+  color: #b47fd7;
+  border: 2px solid #7ab2d0;
+  background-color: #d8f2f5; }
 
-.tarea-rojo {
-  color: #cf4d46;
-  border: 3px solid #cf4d46; }
+.tarea-light_mint {
+  color: #00A39A;
+  border: 2px solid #B9EDC3;
+  background-color: #F6FEF8; }
 
-.tarea-verde {
-  color: #79e6a1;
-  border: 3px solid #79e6a1; }
-
-.tarea-azul {
-  color: #5c7ddf;
-  border: 3px solid #5c7ddf; }
-
-.tarea-naranja {
-  color: #ebc158;
-  border: 3px solid #ebc158; }
-
-.tarea-morado {
-  color: #b083dd;
-  border: 3px solid #b083dd; }
+.tarea-gruvbox_light {
+  color: #b57614;
+  border: 2px solid #f7b42d;
+  background-color: #fbf1c7; }
 
 .hidden {
   display: none; }
@@ -108,8 +95,8 @@ body {
   border-radius: 100%; }
 
 .mensajes {
-  border: 2px solid #3aa343;
-  color: #3aa343;
+  border: 2px solid #44994b;
+  color: #44994b;
   background-color: white;
   border-radius: 20px;
   padding: 10px;
@@ -119,8 +106,8 @@ body {
   transition: 1.0s ease; }
 
 .errores {
-  border: 2px solid #c33030;
-  color: #c33030;
+  border: 2px solid #746161;
+  color: #746161;
   background-color: white;
   border-radius: 20px;
   padding: 10px;
@@ -146,7 +133,7 @@ body {
   top: 0;
   border: 1px solid white;
   border-radius: 100%;
-  background-color: red;
+  background-color: #746161;
   color: white;
   font-weight: bold; }
 

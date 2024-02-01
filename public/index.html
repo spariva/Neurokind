@@ -25,13 +25,10 @@
                 Categoria: <input type="text" name="categoria">
                 <br>
                 Fecha: <input type="date" name="fecha">
-                Color: <select name="color">
-                    <option value="negro" selected>Negro</option>
-                    <option value="morado">Morado</option>
-                    <option value="verde">Verde</option>
-                    <option value="azul">Azul</option>
-                    <option value="naranja">Naranja</option>
-                    <option value="rojo">Rojo</option>
+                Color:<select name="color">
+                    <option value="light_purple">Lila</option>
+                    <option value="light_mint" selected>Menta</option>
+                    <option value="gruvbox_light">Golden sunflower</option>
                 </select>
                 <br>
                 <button id="mostrarFormulario" type="submit">Añadir tarea</button>
@@ -50,11 +47,9 @@
                 <input type="date" id="editFecha" name="editFecha"><br>
                 <label for="editColor">Color:</label><br>
                 <select id="editColor" name="editColor">
-                    <option value="morado">Morado</option>
-                    <option value="verde">Menta</option>
-                    <option value="azul">Azul</option>
-                    <option value="naranja">Naranja</option>
-                    <option value="rojo">Rosa</option>
+                    <option value="light_purple">Lila</option>
+                    <option value="light_mint">Menta</option>
+                    <option value="gruvbox_light">Golden sunflower</option>
                 </select><br>
                 <input class="hidden" type="text" id="editId">
                 <input type="submit" value="Guardar">
@@ -86,7 +81,7 @@
                 fetch('/tareas')
                     .then(response => response.json())
                     .then(tareas => {
-                        const listaTareas = document.querySelector('.listaTareas');
+                        const listaRelax = document.querySelector('.listaRelax');
                         tareas.forEach(tarea => {
                             const div = document.createElement('div');
                             div.className = 'tarea'; // Añade la clase 'tareas' al div
@@ -134,7 +129,24 @@
                             };
                             div.appendChild(closeButton);
 
-                            listaTareas.appendChild(div);
+                            // Añade el div a una lista u otra según la categoría, si la categoría es "importante"  la añade a la lista de tareas importantes. Si la fecha es de esta semana en comparación a hoy, la añade a la lista de tareas de esta semana.
+
+                            if (tarea.fecha) {
+                                const fechaTarea = new Date(tarea.fecha);
+                                const fechaHoy = new Date();
+                                const diasDiferencia = Math.ceil((fechaTarea - fechaHoy) / (1000 * 60 * 60 * 24));
+                                if (diasDiferencia < 7) {
+                                    const listaSemana = document.querySelector('.listaSemana');
+                                    listaSemana.appendChild(div);
+                                } else {
+                                    listaRelax.appendChild(div);
+                                }
+                            } else if (tarea.categoria === 'importante') {
+                                const listaImportantes = document.querySelector('.listaImportantes');
+                                listaImportantes.appendChild(div);
+                            } else {
+                                listaRelax.appendChild(div);
+                            }
                         });
                     });
 
@@ -148,6 +160,15 @@
         </script>
 
         <div class="listaTareas">
+            <div class="listaSemana">
+                <h2 class="listaTitulo">Tareas de la semana:</h2>
+            </div>
+            <div class="listaImportantes">
+                <h2 class="listaTitulo">Tareas importantes:</h2>
+            </div>
+            <div class="listaRelax">
+                <h2 class="listaTitulo">Tareas chill:</h2>
+            </div>
         </div>
 
     </div>
