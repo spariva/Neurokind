@@ -82,6 +82,8 @@
                     .then(response => response.json())
                     .then(tareas => {
                         const listaRelax = document.querySelector('.listaRelax');
+                        const listaImportantes = document.querySelector('.listaImportantes');
+                        const listaSemana = document.querySelector('.listaSemana');
                         tareas.forEach(tarea => {
                             const div = document.createElement('div');
                             div.className = 'tarea'; // Añade la clase 'tareas' al div
@@ -136,14 +138,11 @@
                                 const fechaHoy = new Date();
                                 const diasDiferencia = Math.ceil((fechaTarea - fechaHoy) / (1000 * 60 * 60 * 24));
                                 if (diasDiferencia < 7) {
-                                    const listaSemana = document.querySelector('.listaSemana');
                                     listaSemana.appendChild(div);
                                 } 
                             } else if (tarea.categoria === 'importante') {
-                                const listaImportantes = document.querySelector('.listaImportantes');
                                 listaImportantes.appendChild(div);
                             } else {    
-                                const listaImportantes = document.querySelector('.listaImportantes');
                                 listaRelax.appendChild(div);
                             }
                         });
