@@ -1,47 +1,186 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Gestor de tareas </title>
-    <!-- <link rel="stylesheet" type="text/css" href="css/styles.css"> -->
-    <script src="js/client.js" defer></script>
-</head>
-<body>
-    <header>
-        <h1 class="proyect-title"> Gestor de Tareas </h1>
-        <button class="popup-open-button"> + </button>
-    </header>
-    <div class="popup">
-        <div class="popup-container">
-            <h2> Agregar nueva tarea: </h2>
-            <form action="/addTask" method="POST" id="addTaskForm">
-                <input type="text" id="taskName" name="taskName">
-                <input type="submit" value="Agregar">
-            </form>
-            <i id="popup-close-button"></i>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Neurokind v1.0</title>
+    <link rel="stylesheet" href="./styles/style.css" />
+  </head>
+
+  <body>
+    <div id="contenido">
+      <div class="bienvenida" id="notificaciones">Welcome</div>
+      <button id="pdf" type="button" value="Imprimir" onclick="downloadPDF()">
+        Imprimir
+      </button>
+      <button id="eliminarTodasLasTareas">Eliminar todas las tareas</button
+      ><br />
+
+      <button id="mostrarFormulario" class="boton boton-especial"></button>
+
+      <div class="formulario hidden">
+        <form action="/anadirTarea" method="POST">
+          Tarea : <input type="text" name="tarea" required />
+          <br />
+          Tipo * : <input type="text" name="categoria" />
+          <br />
+          Fecha : <input type="date" name="fecha" /> Tema :
+          <select name="color">
+            <option value="light_purple">Lila</option>
+            <option value="light_mint" selected>Menta</option>
+            <option value="gruvbox_light">Golden sunflower</option>
+          </select>
+          <br />
+          <button id="mostrarFormulario" type="submit" class="botonAñadir">
+            Añadir tarea
+          </button>
+        </form>
+      </div>
+
+      <!-- Formulario de edición -->
+      <div id="editForm" style="display: none">
+        <form id="editTareaForm">
+          <h2>Editar tarea</h2>
+          <label for="editNombre">Nombre:</label><br />
+          <input type="text" id="editNombre" name="nombre" /><br />
+          <label for="editCategoria">Categoria:</label><br />
+          <input type="text" id="editCategoria" name="editCategoria" /><br />
+          <label for="editFecha">Fecha:</label><br />
+          <input type="date" id="editFecha" name="editFecha" /><br />
+          <label for="editColor">Color:</label><br />
+          <select id="editColor" name="editColor">
+            <option value="light_purple">Lila</option>
+            <option value="light_mint">Menta</option>
+            <option value="gruvbox_light">Golden sunflower</option></select
+          ><br />
+          <input class="hidden" type="text" id="editId" />
+          <input type="submit" value="Guardar" />
+        </form>
+      </div>
+
+      <script>
+        window.onload = function () {
+          const urlParams = new URLSearchParams(window.location.search);
+          const mensaje = urlParams.get("mensaje");
+          const error = urlParams.get("error");
+          const notificaciones = document.getElementById("notificaciones");
+
+          if (mensaje) {
+            document.getElementById("notificaciones").innerText =
+              decodeURIComponent(mensaje);
+            notificaciones.classList.remove("bienvenida");
+            notificaciones.classList.add("mensajes");
+            notificaciones.classList.add("mostrar");
+          }
+
+          if (error) {
+            document.getElementById("notificaciones").innerText =
+              decodeURIComponent(error);
+            notificaciones.classList.remove("bienvenida");
+            notificaciones.classList.add("errores");
+            notificaciones.classList.add("mostrar");
+          }
+
+          fetch("/tareas")
+            .then((response) => response.json())
+            .then((tareas) => {
+              const listaRelax = document.querySelector(".listaRelax");
+              const listaImportantes =
+                document.querySelector(".listaImportantes");
+              const listaSemana = document.querySelector(".listaSemana");
+              tareas.forEach((tarea) => {
+                const div = document.createElement("div");
+                div.className = "tarea"; // Añade la clase 'tareas' al div
+                div.classList.add(`tarea-${tarea.color}`); // Añade la clase basada en el color de la tarea
+
+                let contenido = `${tarea.nombre}<br>`;
+                if (tarea.categoria) {
+                  contenido += `Categoria: ${tarea.categoria}<br>`;
+                }
+                if (tarea.fecha) {
+                  contenido += `Fecha: ${tarea.fecha}`;
+                }
+
+                div.innerHTML = contenido;
+
+                // Botón de editar
+                const editButton = document.createElement("button");
+                editButton.innerText = "Edit";
+                editButton.className = "botonEditar";
+                editButton.addEventListener("click", function () {
+                  document.querySelector("#editForm").style.display = "block"; // Muestra el formulario de edición
+                  document.querySelector("#editNombre").value = tarea.nombre; // Carga el nombre de la tarea en el formulario
+                  document.querySelector("#editCategoria").value =
+                    tarea.categoria; // Carga la categoría de la tarea en el formulario
+                  document.querySelector("#editFecha").value = tarea.fecha; // Carga la fecha de la tarea en el formulario
+                  document.querySelector("#editColor").value = tarea.color; // Carga el color de la tarea en el formulario
+                  document.querySelector("#editId").value = tarea.id;
+                });
+                div.appendChild(editButton);
+
+                // botón de eliminar
+                const closeButton = document.createElement("button");
+                closeButton.innerText = "X";
+                closeButton.className = "botonCerrar";
+                closeButton.onclick = function () {
+                  fetch(`/eliminarTarea/${tarea.id}`, {
+                    method: "DELETE",
+                  }).then((response) => {
+                    if (response.ok) {
+                      div.remove(); // Elimina la tarea de la interfaz de usuario
+                    } else {
+                      console.error("Error al eliminar la tarea");
+                    }
+                  });
+                };
+                div.appendChild(closeButton);
+
+                // Añade el div a una lista u otra según la categoría, si la categoría es "importante"  la añade a la lista de tareas importantes. Si la fecha es de esta semana en comparación a hoy, la añade a la lista de tareas de esta semana.
+
+                if (tarea.fecha) {
+                  const fechaTarea = new Date(tarea.fecha);
+                  const fechaHoy = new Date();
+                  const diasDiferencia = Math.ceil(
+                    (fechaTarea - fechaHoy) / (1000 * 60 * 60 * 24)
+                  );
+                  if (diasDiferencia < 7) {
+                    listaSemana.appendChild(div);
+                  } else if (tarea.categoria === "importante") {
+                    listaImportantes.appendChild(div);
+                  } else {
+                    listaRelax.appendChild(div);
+                  }
+                } else {
+                    if (tarea.categoria === "importante") {
+                        listaImportantes.appendChild(div);
+                    } else {
+                        listaRelax.appendChild(div);
+                    }
+                }
+              });
+            });
+
+          setTimeout(function () {
+            notificaciones.classList.remove("mostrar");
+            notificaciones.classList.add("bienvenida");
+            document.getElementById("notificaciones").innerText = "Holi =)";
+          }, 3000);
+        };
+      </script>
+
+      <div class="listaTareas">
+        <div class="listaSemana">
+          <h2 class="listaTitulo">Tareas de la semana:</h2>
         </div>
+        <div class="listaImportantes">
+          <h2 class="listaTitulo">Tareas importantes:</h2>
+        </div>
+        <div class="listaRelax">
+          <h2 class="listaTitulo">Tareas chill:</h2>
+        </div>
+      </div>
     </div>
-    <main>
-        <div class="taskList">
-            <div class="task-todo step">
-                <div class="task-step-head" id="first-step-head" id="taskList">
-                    <span> Tareas por hacer </span>
-                </div>
-                <div class="task-step-container"> </div>
-            </div>
-            <div class="task-inprogress step">
-                <div class="task-step-head" id="second-step-head">
-                    <span> Tareas en proceso </span>
-                </div>
-                <div class="task-step-container"> </div>
-            </div>
-            <div class="task-finished step">
-                <div class="task-step-head" id="third-step-head">
-                    <span> Tareas finalizadas </span>
-                </div>
-                <div class="task-step-container"> </div>
-            </div>
-        </div>
-    </main>
-</body>
+
+    <script src="./scripts/client.js"></script>
+  </body>
 </html>

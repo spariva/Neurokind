@@ -1,0 +1,183 @@
+@import "mixins";
+@import "variables";
+
+body {
+    height: 20vh;
+	margin: 0;
+	display: grid;
+    @include degradadoDual($color-fondo, $color-body, top);
+}
+
+#contenido {
+    @include flexOptions(column, wrap, center, center);
+}
+
+.listaTareas {
+    @include flexOptions(row, nowrap, center, center);
+    gap: 30 * $unit;
+}
+
+.formulario{
+    @include flexOptions(column, nowrap, center, center);
+    align-items: center;
+    padding: 20px;
+    margin: 30px;
+    border: 2px solid darken($color-fondo-formulario, 20%);
+    border-radius: $borde-formulario;
+    background-color: $color-fondo-formulario;
+    width: $ancho-formulario;
+    font-size: $tamano-texto-formulario;
+    font-family: $primary-font;
+
+    button {
+        margin-top: 10px;
+        margin: 10px auto 0;
+        @include botones(lighten($naranja, 20%), $azul, $color-body, lighten(invert($naranja), 50%));
+    }
+
+    input{
+        margin: 5px;
+    }
+}
+
+#editTareaForm{
+    @include flexOptions(column, nowrap, center, center);
+    align-items: center;
+    padding: 10px;
+    margin: 20px;
+    border: 2px solid darken($color-fondo-formulario, 20%);
+    border-radius: $borde-formulario;
+    background-color: $color-fondo-formulario;
+    width: $ancho-formulario * 0.8;
+    font-size: $font-size;
+    font-family: $secondary-font;
+    //input type submit:
+    input[type=submit] {
+        margin-top: 5px;
+        margin: 5px auto 0;
+        @include botones(lighten($naranja, 20%), $azul, $color-body, lighten(invert($naranja), 50%));
+        font-family: $tertiary-font;
+    }
+
+    input{
+        margin: 5px;
+    }
+}
+
+.tarea {
+    @include tareas($color-fondo-tarea, $borde-tarea, $ancho-tarea, $tamano-texto-tarea, $fuente-tarea);
+}
+
+@mixin temaTarea($title_color, $icon_color, $text_color, $border_color, $bg_color) {
+    color: $title_color;
+    border: 2px solid $border_color;
+    background-color: $bg_color;
+}
+
+@each $tema in $temas {
+    $nombre: nth($tema, 1);
+    $colores: nth($tema, 2);
+
+    $title_color: map-get($colores, '$title_color');
+    $text_color: map-get($colores, '$text_color');
+    $icon_color: map-get($colores, '$icon_color');
+    $border_color: map-get($colores, '$border_color');
+    $bg_color: map-get($colores, '$bg_color');
+
+    .tarea-#{$nombre} {
+        @include temaTarea($title_color, $icon_color, $text_color, $border_color, $bg_color);
+        // @debug $nombre;
+        @if ($nombre == "light_purple") {
+            .botonEditar, .botonCerrar{
+                color: $icon_color;
+                background-color: lighten($text_color,30%);
+            } 
+        }@else if ($nombre == "light_mint") {
+            .botonEditar, .botonCerrar{
+                color: $text_color;
+                background-color: lighten($bg_color,10%);
+            }
+        }@else if ($nombre == "gruvbox_light") {
+            .botonEditar, .botonCerrar{
+                color: $icon_color;
+                background-color: lighten($bg_color,10%);
+            }
+        }
+    }
+            
+            
+}
+
+.hidden {
+    display: none;
+}
+
+.mostrar{
+    display:block;
+}
+
+.boton-especial{
+    width: 6 * $unit;  
+    height: 6 * $unit;
+    @include degradadoDual($morado, $naranja, right);
+    &:hover{
+        @include degradadoDual($verde, $morado, right);
+        transform: scale(1.1);
+    }
+}
+
+#mostrarFormulario{
+    border-radius: 100%;
+}
+
+.botonAñadir {
+    @include botones(lighten($naranja, 20%), $azul, $color-body, lighten(invert($naranja), 50%));
+    transform: translateX(110%);    
+}
+
+.mensajes{
+    @include notificaciones($color-mensajes)
+}
+
+.errores{
+    @include notificaciones($cruz)
+}
+
+.bienvenida{
+    @include notificaciones(lighetn($naranja, 20%))
+}
+
+.botonCerrar {
+    @include absoluteBasic();
+    border: 1px solid white;
+    border-radius: 100%;
+    background-color: $cruz;
+    color: white;
+    font-weight: bold;
+}
+
+.botonEditar {
+    @include absoluteBasic();
+    //quiero que se posicione por debajo, en el eje y, del boton cerrar
+    top: 20px;
+ }
+
+ #eliminarTodasLasTareas {
+    position:absolute;
+    left: 55%;
+    bottom: 0;
+    transform: translateX(-50%);
+    margin-top: 200px;
+    margin-bottom: 10px;
+    @include botones($morado, $azul, $color-body, $rojo);
+  }
+  #pdf {
+    position:absolute;
+    left: 45%;
+    bottom: 0;
+    transform: translateX(-50%);
+    margin-top: 200px;
+    margin-bottom: 10px;
+    @include botones($morado, $azul, $color-body, $verde);
+    font-family: $secondary-font;
+  }

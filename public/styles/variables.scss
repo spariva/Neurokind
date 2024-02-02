@@ -1,0 +1,74 @@
+$unit: 0.50vw;
+$unit-rem: 1.0rem;
+
+$color-fondo: #cc91d3;
+$color-fondo-tarea: #b9c4c5;
+$color-fondo-formulario: #85d9c3;
+
+$color-texto: #000;
+$color-body: #847de2;
+
+$naranja: #ebc158;
+$morado: #b083dd;
+$verde: #79e6a1;
+$azul: #4e73e1;
+$rojo: #cf4d46;
+$negro: #262323;
+
+$light_mint: (
+    '$title_color': #00A39A,
+    '$text_color': #9C7FD7,
+    '$icon_color': #00A39A,
+    '$border_color': #B9EDC3,
+    '$bg_color': #F6FEF8,
+);
+
+$title_color_light_purple: #b47fd7;
+
+$light_purple: (
+    '$title_color': $title_color_light_purple,
+    '$text_color': #1e9dd4,
+    '$icon_color': #9272d1,
+    '$border_color': complement($title_color_light_purple),
+    '$bg_color': #d8f2f5,
+);
+
+$gruvbox_light: (
+    '$title_color': #b57614,
+    '$icon_color': #af3a03,
+    '$text_color': #427b58,
+    '$border_color': #f7b42d,
+    '$bg_color': #fbf1c7,
+);
+
+
+$temas: (
+    ("light_purple", $light_purple),
+    ("light_mint", $light_mint),
+    ("gruvbox_light", $gruvbox_light)
+);
+
+$primary-font: 'Roboto', sans-serif;
+$secondary-font: 'Open Sans', sans-serif;
+$tertiary-font: 'Montserrat', sans-serif;
+// Cambia los variables de abajo, para que queden del mismo tamaño pero sean el resultado de multiplicar la unidad por un número entero.
+$font-size: 1.3 * $unit-rem;
+$font-size-small: 1 * $unit-rem;
+$font-size-large: 2 * $unit-rem;
+
+// Cambia los variables de abajo, para que queden del mismo tamaño pero sean el resultado de multiplicar la unidad por un número entero.
+$borde-formulario: 15 * $unit;
+$borde-tarea: 8 * $unit;
+
+$ancho-tarea: $unit * 30;
+$ancho-formulario: $unit * 50;
+
+
+$tamano-texto-tarea: $font-size-small;
+$tamano-texto-formulario: $font-size;
+
+$fuente-tarea: $secondary-font;
+
+$color-mensajes: darken($color-fondo-formulario, 20%);
+$cruz: lighten($negro, 30%);
+$altura: 150px;

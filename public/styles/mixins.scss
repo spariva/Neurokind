@@ -1,0 +1,66 @@
+//Solo iría en la dirección deseada si no usa las versiones antiguas de navegadores.
+@mixin degradadoDual($color1, $color2, $direction) {
+    background: $color1;
+    background-image: -moz-linear-gradient(bottom, $color1 0%, $color2 100%);
+    background-image: -webkit-linear-gradient(bottom, $color1 0%, $color2 100%);
+    background-image: linear-gradient(to $direction, $color1 0%, $color2 100%);
+    background-repeat: no-repeat;
+    background-size: cover;
+    // filter: progid:DXImageTransform.Microsoft.gradient( startColorstr= $color1, endColorstr= $color2,GradientType=1 );
+}
+
+@mixin flexOptions($direction, $wrap, $justify, $align) {
+    display: flex;
+    flex-direction: $direction;
+    flex-wrap: $wrap;
+    justify-content: $justify;
+    align-items: $align;
+}
+
+@mixin tareas($color-fondo-tarea, $borde-tarea, $ancho-tarea, $tamano-texto-tarea, $fuente) {
+    background-color: $color-fondo-tarea;
+    width: $ancho-tarea;
+    border-radius: $borde-tarea;
+    margin: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: $tamano-texto-tarea;
+    font-family: $tertiary-font;
+    text-align: center;
+    padding: 10px;
+    padding-right: 20px;    
+    position: relative;
+}
+
+@mixin notificaciones($color-notificacion){
+    border: 2px solid $color-notificacion;
+    color: $color-notificacion;
+    background-color: white;
+    border-radius: 20px;
+    padding: 10px;
+    margin:20px;
+    text-align: center;
+    font-weight: bold;
+    transition: 1.0s ease;
+}
+
+@mixin botones($color-fondo, $color-texto, $color-borde, $color-hover){
+    background-color: $color-fondo;
+    color: $color-texto;
+    border: 2px solid $color-borde;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    transition: 1.0s ease;
+    &:hover{
+        background-color: $color-hover;
+    }
+}
+
+@mixin absoluteBasic(){
+    position: absolute;
+    right: 0;
+    top: 0;
+}

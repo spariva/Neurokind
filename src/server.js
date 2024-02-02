@@ -8,62 +8,167 @@ const envPath = path.join(basePath, '.env');
 require('dotenv').config({path: envPath});
 //Express:
 const express = require('express');
-const fs = require('fs').promises;
-const cors = require('cors'); 
+const bodyParser = require('body-parser');
+const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT;
-const tareasFilePath = 'tasks.json';
 
-app.use(express.json());
-app.use(cors()); 
-app.use(express.urlencoded({ extended: true })); // Para que funcione correctamente el formulario
-app.use(express.static(publicPath)); // Para servir archivos estáticos
+// Para poder leer los datos del formulario
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-// Servir el index.html cuando se solicite la ruta raíz
+// Servir archivos estáticos desde el directorio actual
+app.use(express.static(publicPath));
+
+// Servir el index.html cuando se solicite la ruta raíz, PERO parece que si lo quito no pasa nada.
 app.get('/', function(req, res) {
-  res.sendFile(indexPath);
+    res.sendFile(indexPath);
+  });
+
+// Obtener todas las tareas. Si quito este no pinta nada en el navegador.
+app.get('/tareas', (req, res) => {
+    fs.readFile('tareas.json', (err, data) => {
+        if (err) throw err;
+        let tareas = [];
+        if (data.toString()) {
+            tareas = JSON.parse(data);
+        }
+        res.send(tareas);
+    });
 });
 
-// 
-app.get('/tasks', async (req, res) => {
-  try {
-    const data = await fs.readFile(tareasFilePath, 'utf-8');
-    let tasks = [];
-    tasks = JSON.parse(data); // Redundante, en todo caso comprueba que sea JSON válido, si no lo es, devuelve un error. Y la cosa es que paso de JSON a objeto y luego de objeto a JSON. Podría devolver directamente el JSON. 
-    res.json(tasks);
-  } catch (error) {
-    console.error('Error al leer el archivo de tasks:', error);
-    res.status(500).json({ mensaje: 'Error interno del servidor en el get' });
-  }
+// Obtener tareas por su color
+app.get('/tareas/:color', (req, res) => {
+    const color = req.params.color;
+
+    fs.readFile('tareas.json', (err, data) => {
+        if (err) throw err;
+
+        let tareas = [];
+        let tareasColor = [];
+        if (data.toString()) {
+            tareas = JSON.parse(data);
+        }
+        for (let i = 0; i < tareas.length; i++) {
+            if (tareas[i].color === color) {
+                tareasColor.push(tareas[i]);
+            }
+        }
+        res.send(tareasColor);
+    });
 });
-// A lo mejor tengo que cambiar la ruta de get y post. 
-app.post('/addTask', async (req, res) => {
-  try {
-    const newTask = {
-      id: Date.now(),
-      descripcion: req.body.descripcion,
-      completada: false,
+
+
+app.post('/anadirTarea', (req, res) => {
+    const tarea = {
+        id: Date.now(), //su id sera unico segun la hora de creacion
+        nombre: req.body.tarea,
+        categoria: req.body.categoria,
+        fecha: req.body.fecha,
+        color: req.body.color
     };
 
-    let taskList = [];
-    const data = await fs.readFile(tareasFilePath, 'utf-8');
-    if (data.toString()) {
-      taskList = JSON.parse(data);
-    }
+    fs.readFile('tareas.json', (err, data) => {
+        if (err) {
+            throw err;
+        }
 
-    taskList.push(newTask);
+        let tareas = [];
+        if (data.toString()) {
+            tareas = JSON.parse(data);
+        }
+        tareas.push(tarea);
 
-    await fs.writeFile(tareasFilePath, JSON.stringify(taskList, null, 2), 'utf-8');
+        fs.writeFile('tareas.json', JSON.stringify(tareas), error => {
+            if (error) res.redirect('/index.html?error=Error al añadir la tarea');
 
-    res.status(201).json(newTask);
-  } catch (error) {
-    console.error('Error al escribir en el archivo de tasks añadiendo tarea:', error);
-    res.status(500).json({ mensaje: 'Error interno del servidor' });
-  }
+            res.redirect('/index.html?mensaje=¡Success =)!');
+        });
+    });
 });
 
+app.put('/editarTarea/:id', (req, res) => {
+    const idTarea = Number(req.params.id);
+    const tareaActualizada = {
+        id: idTarea,
+        nombre: req.body.nombre,
+        categoria: req.body.categoria,
+        fecha: req.body.fecha,
+        color: req.body.color
+    };
+
+
+    fs.readFile('tareas.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error('Error al leer el archivo');
+            res.status(500).send('Error al leer el archivo');
+        } else {
+            let tareas = [];
+            if (data.toString()) {
+                tareas = JSON.parse(data);
+            }
+
+            const index = tareas.findIndex(tarea => Number(tarea.id) === idTarea);
+            if (index !== -1) {
+                // Reemplazar la tarea actual por la tarea actualizada
+                // tareas[index] = { ...tareaActualizada };
+                tareas.splice(index, 1);
+                tareas.push(tareaActualizada);
+                fs.writeFile('tareas.json', JSON.stringify(tareas), 'utf8', err => {
+                    if (err) {
+                        console.error('Error al escribir en el archivo');
+                        res.status(500).send('Error al escribir en el archivo');
+                    } else {
+                        res.send('Tarea editada :)');
+                    }
+                });
+            } else {
+                res.status(404).send('Tarea no encontrada');
+            }
+        }
+    });
+});
+
+
+app.delete('/eliminarTarea/:id', (req, res) => {
+    const id = req.params.id;
+
+    fs.readFile('tareas.json', (err, data) => {
+        if (err) throw err;
+
+        let tareas = JSON.parse(data);
+
+        // Encontrar el índice de la tarea con el ID correspondiente
+        const index = tareas.findIndex(tarea => tarea.id == id);
+
+        // Si la tarea no se encuentra, enviar un error
+        if (index === -1) {
+            res.status(404).send('Tarea no encontrada');
+            return;
+        }
+
+        // Eliminar la tarea del array
+        tareas.splice(index, 1);
+
+        fs.writeFile('tareas.json', JSON.stringify(tareas), (err) => {
+            if (err) throw err;
+            res.sendStatus(200);
+        });
+    });
+});
+
+app.delete('/eliminarTodasLasTareas', (req, res) => {
+    fs.writeFile('tareas.json', JSON.stringify([]), 'utf8', err => {
+        if (err) {
+            console.error('Error al escribir en el archivo');
+            res.status(500).send('Error al escribir en el archivo');
+        } else {
+            res.send('Todas las tareas han sido eliminadas');
+        }
+    });
+});
 
 
 app.listen(PORT, () => {
-  console.log(`Servidor escuchando en http://localhost:${PORT}`);
+    console.log(`Servidor corriendo en el http://localhost:${PORT}`);
 });
